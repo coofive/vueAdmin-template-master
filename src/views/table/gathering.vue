@@ -2,6 +2,17 @@
   <section>
     <el-row>
       <el-col :span="24">
+        <!-- 查询表单 -->
+        <el-form :inline="true" class="demo-form-inline" style="padding: 1px,1px,1px,1px">
+            <el-form-item label="活动名称">
+                <el-input v-model="searchMap.name" placeholder="活动名称"></el-input>
+            </el-form-item>
+            <el-form-item label="活动日期">
+                <el-date-picker type="date" placeholder="选择开始日期" v-model="searchMap.starttime"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择截止日期" v-model="searchMap.endtime"></el-date-picker>
+            </el-form-item>
+            <el-button type="primary" @click="loadData">查询</el-button>
+        </el-form>
         <!--表格-->
         <el-table :data="list" border style="width: 100%">
           <el-table-column type="selection"></el-table-column>
@@ -38,7 +49,8 @@ export default {
             list: null, // 活动数据
             listLoading: true, // 是否还在加载
             currentPage: 1, // 当前页
-            total: 0 // 总条数
+            total: 0, // 总条数
+            searchMap: {} // 查询条件
         }
     },
     created () {
@@ -47,7 +59,7 @@ export default {
     methods: {
         loadData() {
             this.listLoading = true;
-            gathering.getPageList(this.currentPage, 10).then(resp => {
+            gathering.search(this.currentPage, 10, this.searchMap).then(resp => {
                 if(resp.flag == true){
                     this.list = resp.data.rows;
                     this.total = resp.data.total;
