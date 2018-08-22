@@ -4,7 +4,7 @@
           <el-col :span="6">
             <!-- 新增按钮 -->
             <span>
-                <el-button type="primary" round style="margin:10px" @click="handleEdit">
+                <el-button type="primary" round style="margin:10px" @click="handleAdd">
                     <i class="el-icon-plus"/>
                 </el-button>
             </span>
@@ -25,8 +25,6 @@
       </el-row>
     <el-row>
       <el-col :span="24">
-        
-        
         <!--表格-->
         <el-table :data="list" border style="width: 100%">
           <el-table-column type="selection"></el-table-column>
@@ -37,8 +35,8 @@
           <el-table-column prop="endtime" label="截止日期"></el-table-column>
           <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button @click="handleEdit" type="warning" icon="el-icon-edit" circle size="small"></el-button>
-                <el-button type="danger" icon="el-icon-delete" circle size="small"></el-button>
+                <el-button @click="handleEdit(scope.row.id)" type="warning" icon="el-icon-edit" circle size="small"></el-button>
+                <el-button @click="handleRemove(scope.row.id)" type="danger" icon="el-icon-delete" circle size="small"></el-button>
               </template>
           </el-table-column>
         </el-table>
@@ -95,6 +93,7 @@
 <script>
 import gathering from "@/api/gathering";
 import city from "@/api/city";
+import message from "@/utils/message";
 
 export default {
   data() {
@@ -106,7 +105,8 @@ export default {
       searchMap: {}, // 查询条件
       dialogFormVisible: false, // 是否显示编辑窗口
       pojo: {}, // 活动实体类
-      cityList: [] // 城市列表
+      cityList: [], // 城市列表
+      id: '' // 活动id
     };
   },
   created() {
@@ -114,6 +114,7 @@ export default {
     this.loadCityData(); // 加载城市数据
   },
   methods: {
+    // 加载活动数据
     loadData() {
       this.listLoading = true;
       gathering.search(this.currentPage, 10, this.searchMap).then(resp => {
@@ -124,14 +125,47 @@ export default {
         this.listLoading = false;
       });
     },
-    handleEdit(){
+    // 增加按钮事件
+    handleAdd(){
         this.dialogFormVisible = true;
     },
+    // 编辑按钮事件
+    handleEdit(id){
+        this.dialogFormVisible = true;
+        this.id = id;
+        if(this.id != ''){
+            gathering.findById(this.id).then(resp => {
+                if(resp.flag == true){
+                    this.pojo = resp.data;
+                }
+            })
+        }else{
+            this.pojo = {}; // 清空表单
+        }
+    },
+    // 保存表单数据按钮
     handleSave(){
-        gathering.save(this.pojo).then(resp =>{
-            this.handleShowMessage(resp); // 弹出提示信息
+        if(this.id != ''){
+            // 抽取回调提示
+            message.handleShowMessage(gathering.update(this.id,this.pojo),this);
+        }else{
+            message.handleShowMessage(gathering.save(this.pojo),this);
+        }
+    },
+    // 删除按钮事件
+    handleRemove(id){
+        this.$confirm('确定要删除吗？','提示',{
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(()=>{
+            if(id != ''){
+                // 抽取回调提示
+                message.handleShowMessage(gathering.deleteById(id),this);
+            } 
         })
     },
+    // 已提取出去作单独的工具
     handleShowMessage(resp){
         if(resp.flag == true){
             this.$message({
@@ -147,6 +181,7 @@ export default {
             });
         }
     },
+    // 加载城市数据
     loadCityData(){
         city.getList().then(resp => {
             this.cityList = resp.data;

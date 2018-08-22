@@ -1,7 +1,11 @@
 import request from '@/utils/request'
+const api_name = 'gathering'
 export default {
-getList() { return request({ url: '/gathering', method: 'get' }) },
-getPageList(page,size) { return request({ url: `/gathering/${page}/${size}`, method: 'get' }) },
-search(page,size,searchMap) { return request({ url: `/gathering/${page}/${size}`, method: 'post', data: searchMap }) },
-save(pojo) { return request({ url: '/gathering', method: 'post', data: pojo }) }
+getList() { return request({ url: `/${api_name}`, method: 'get' }) },
+getPageList(page,size) { return request({ url: `/${api_name}/${page}/${size}`, method: 'get' }) },
+search(page,size,searchMap) { return request({ url: `/${api_name}/${page}/${size}`, method: 'post', data: searchMap }) },
+save(pojo) { return request({ url: `/${api_name}`, method: 'post', data: pojo }) },
+findById(id) { return request({ url: `/${api_name}/${id}`, method: 'get' }) },
+update(id,pojo) { return request({ url: `/${api_name}/${id}`, method: 'put', data: pojo }) },
+deleteById(id) { return request({ url: `/${api_name}/${id}`, method: 'delete' }) }
 }
