@@ -74,6 +74,11 @@
           <el-form-item label="活动详情">
               <el-input v-model="pojo.detail" type="textarea"></el-input>
           </el-form-item>
+          <el-form-item label="城市">
+            <el-select v-model="pojo.city" placeholder="请选择">
+                <el-option v-for="city in cityList" :key="city.id" :label="city.name" :value="city.id"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="是否可见" prop="delivery">
             <el-switch on-text="" off-text=""  active-value="1" inactive-value="0" v-model="pojo.status"></el-switch>
           </el-form-item>
@@ -89,6 +94,7 @@
 
 <script>
 import gathering from "@/api/gathering";
+import city from "@/api/city";
 
 export default {
   data() {
@@ -99,11 +105,13 @@ export default {
       total: 0, // 总条数
       searchMap: {}, // 查询条件
       dialogFormVisible: false, // 是否显示编辑窗口
-      pojo: {}
+      pojo: {}, // 活动实体类
+      cityList: [] // 城市列表
     };
   },
   created() {
-    this.loadData();
+    this.loadData(); // 加载活动数据
+    this.loadCityData(); // 加载城市数据
   },
   methods: {
     loadData() {
@@ -138,7 +146,11 @@ export default {
                 type:'error'
             });
         }
-        
+    },
+    loadCityData(){
+        city.getList().then(resp => {
+            this.cityList = resp.data;
+        })
     }
   }
 };
