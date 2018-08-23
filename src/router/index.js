@@ -60,16 +60,62 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/form',
+    path: '/gathering',
     component: Layout,
-    name: 'Activity',
+    name: 'gathering',
     meta: { title: '活动管理', icon: 'example' },
     children: [
       {
         path: 'gathering',
-        name: 'Form',
+        name: 'gathering',
         component: () => import('@/views/table/gathering'),
         meta: { title: '活动管理', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/recruit',
+    component: Layout,
+    name: 'recruit',
+    meta: { title: '招聘管理', icon: 'example' },
+    children: [
+      {
+        path: 'enterprise', 
+        name: 'enterprise', 
+        component: () => import('@/views/table/enterprise'), 
+        meta: { title: '企业管理', icon: 'table'}
+      },
+      {
+        path: 'recruit',
+        name: 'recruit',
+        component: () => import('@/views/table/recruit'),
+        meta: { title: '招聘管理', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/article',
+    component: Layout,
+    name: 'article',
+    meta: { title: '文章管理', icon: 'example' },
+    children: [
+      {
+        path: 'channel',
+        name: 'channel',
+        component: () => import('@/views/table/channel'),
+        meta: { title: '频道管理', icon: 'table' }
+      },
+      {
+        path: 'column',
+        name: 'column',
+        component: () => import('@/views/table/column'),
+        meta: { title: '专栏管理', icon: 'table' }
+      },
+      {
+        path: 'article',
+        name: 'article',
+        component: () => import('@/views/table/article'),
+        meta: { title: '文章管理', icon: 'table' }
       }
     ]
   },
