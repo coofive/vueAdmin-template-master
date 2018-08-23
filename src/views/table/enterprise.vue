@@ -11,15 +11,15 @@
     :data="list"
     border
     style="width: 100%">
-          <el-table-column prop="id" label="ID" width="80"></el-table-column>
-          <el-table-column prop="name" label="企业名称" width="80"></el-table-column>
-          <el-table-column prop="summary" label="企业简介" width="80"></el-table-column>
-          <el-table-column prop="address" label="企业地址" width="80"></el-table-column>
-          <el-table-column prop="labels" label="标签列表" width="80"></el-table-column>
-          <el-table-column prop="ishot" label="是否热门" width="80"></el-table-column>
-          <el-table-column prop="logo" label="LOGO" width="80"></el-table-column>
-          <el-table-column prop="jobcount" label="职位数" width="80"></el-table-column>
-          <el-table-column prop="url" label="URL" width="80"></el-table-column>
+          <el-table-column align="center" prop="id" label="ID" width="80"></el-table-column>
+          <el-table-column align="center" prop="name" label="企业名称" width="120"></el-table-column>
+          <el-table-column align="center" prop="summary" label="企业简介" width="170"></el-table-column>
+          <el-table-column align="center" prop="address" label="企业地址" width="250"></el-table-column>
+          <el-table-column align="center" prop="labels" label="标签列表" width="120"></el-table-column>
+          <el-table-column align="center" prop="ishot" label="是否热门" width="80"></el-table-column>
+          <el-table-column align="center" prop="logo" label="LOGO" width="80"></el-table-column>
+          <el-table-column align="center" prop="jobcount" label="职位数" width="80"></el-table-column>
+          <el-table-column align="center" prop="url" label="URL"></el-table-column>
 
     <el-table-column
       fixed="right"
